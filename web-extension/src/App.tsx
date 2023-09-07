@@ -1,12 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { API_URL } from './utils/env';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const url = API_URL;
+
+  console.log(url);
+
   return (
     <div className="App">
-      <p className='bg-red-900'>
-        test
-      </p>
+      {
+        isLoading ? (
+          <p>Loading</p>
+        ) : (
+          <p>Loaded !</p>
+        )
+      }
     </div>
   );
 }

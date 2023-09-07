@@ -1,12 +1,14 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
-
-// const env = require("./env");
+const DotenvPlugin = require("dotenv-webpack");
 
 module.exports = {
   entry: path.resolve(__dirname, "..", "src", "index.tsx"),
   mode: "production",
   plugins: [
+    new DotenvPlugin({
+      path: path.resolve(__dirname, '..', '.env.' + process.env.NODE_ENV)
+    }),
     new CopyPlugin({
       patterns: [
         "manifest.json"
@@ -45,4 +47,9 @@ module.exports = {
     filename: "content.js",
     path: path.resolve(__dirname, "..", "build"),
   },
-};
+  devServer: {
+    devMiddleware: {
+      writeToDisk: true
+    }
+  }
+}
