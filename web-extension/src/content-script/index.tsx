@@ -6,7 +6,7 @@ import './index.css';
 const div = document.createElement("div");
 div.id = "annotate_extension_root";
 
-document.body.appendChild(div);
+document.body.prepend(div);
 
 const root = ReactDOM.createRoot(
   document.getElementById('annotate_extension_root') as HTMLElement

@@ -1,10 +1,11 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const DotenvPlugin = require("dotenv-webpack");
+const env = require('./env')().raw;
 
 module.exports = {
-  entry: path.resolve(__dirname, "..", "src", "index.tsx"),
-  mode: "production",
+  entry: path.resolve(__dirname, "..", "src", "content-script", "index.tsx"),
+  mode: env.NODE_ENV === "production" ? "production" : "development",
   plugins: [
     new DotenvPlugin({
       path: path.resolve(__dirname, '..', '.env.' + process.env.NODE_ENV)
@@ -19,14 +20,7 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: [
-          {
-            loader: "ts-loader",
-            options: {
-              compilerOptions: { noEmit: false },
-            },
-          },
-        ],
+        use: ['babel-loader'],
         exclude: /node_modules/,
       },
       {
@@ -50,6 +44,8 @@ module.exports = {
   devServer: {
     devMiddleware: {
       writeToDisk: true
-    }
-  }
+    },
+    hot: false
+  },
+  devtool: "inline-source-map"
 }
